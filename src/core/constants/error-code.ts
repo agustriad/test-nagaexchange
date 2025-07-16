@@ -1,0 +1,6 @@
+export enum GlobalErrorCode {
+    VALIDATION_ERROR = "FR_0101",
+    FAILED_CONNECT_TO_CORE = "FR_0102",
+    FAILER_INSERT_DATA = "FR_0103",
+    FAILED_UPDATE_DATA = "FR_0104",
+}
