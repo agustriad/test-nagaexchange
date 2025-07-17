@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { CommonEntity } from '../../core/entities/common.entity';
+import { TransactionsEntity } from '../transactions/transactions.entity';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends CommonEntity {
@@ -12,4 +13,7 @@ export class UsersEntity extends CommonEntity {
     token?: string;
 
     @Column({ type: 'text', select: false }) password: string;
+
+    @OneToMany(() => TransactionsEntity, (transaction) => transaction.user)
+    transactions: TransactionsEntity[];
 }

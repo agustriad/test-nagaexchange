@@ -9,6 +9,7 @@ import { PingModule } from './domain/ping/ping.module';
 import { HealthModule } from './domain/health/health.module';
 import { UsersModule } from './domain/users/users.module';
 import { AuthenticationModule } from './domain/authentication/authentication.module';
+import { TransactionsModule } from './domain/transactions/transactions.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { AuthenticationModule } from './domain/authentication/authentication.mod
         HealthModule,
         UsersModule,
         AuthenticationModule,
+        TransactionsModule,
     ],
 })
 export class AppModule implements NestModule {
