@@ -4,16 +4,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Client } from 'pg';
 import * as dotenv from 'dotenv';
-import * as process from 'process';
 dotenv.config();
 
 const DBNAME = process.env.DATABASE_NAME;
 const client = new Client({
-    host: process.env.DATABASE_HOST || 'localhost',
-    port: process.env.DATABASE_PORT || 5432,
-    user: process.env.DATABASE_USER || 'postgres',
-    password: process.env.DATABASE_PASSWORD || 'postgres',
-    database: 'postgres',
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: DBNAME,
 });
 
 async function ensureDatabaseExists(dbName: string) {

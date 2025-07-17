@@ -6,11 +6,17 @@ import {
     Body,
     HttpCode,
     HttpStatus,
+    UseGuards,
+    NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
-@Controller('users')
+@Controller('user')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
@@ -22,6 +28,10 @@ export class UsersController {
 
     @Get(':id')
     async findOne(@Param('id') id: string) {
-        return this.usersService.findById(id);
+        const res = await this.usersService.findById(id);
+        if (!res) {
+            throw new NotFoundException();
+        }
+        return res;
     }
 }

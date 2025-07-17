@@ -7,7 +7,7 @@ export class TransactionsEntity extends CommonEntity {
     @Column({ name: 'amount', type: 'varchar', length: 100, default: '0' })
     amount: string;
 
-    @ManyToOne(() => UsersEntity, (user) => user.transactions)
+    @ManyToOne(() => UsersEntity, (user) => user.transactions, { eager: false })
     @JoinColumn({ name: 'user_id' })
     user: UsersEntity;
 }

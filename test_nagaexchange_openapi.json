@@ -183,7 +183,7 @@
                 ]
             }
         },
-        "/users": {
+        "/user": {
             "post": {
                 "operationId": "UsersController_create",
                 "parameters": [],
@@ -202,12 +202,17 @@
                         "description": ""
                     }
                 },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
                 "tags": [
                     "Users"
                 ]
             }
         },
-        "/users/{id}": {
+        "/user/{id}": {
             "get": {
                 "operationId": "UsersController_findOne",
                 "parameters": [
@@ -225,6 +230,11 @@
                         "description": ""
                     }
                 },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
                 "tags": [
                     "Users"
                 ]
@@ -294,6 +304,122 @@
                 ],
                 "tags": [
                     "Auth"
+                ]
+            }
+        },
+        "/transaction": {
+            "get": {
+                "operationId": "TransactionsController_list",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "tags": [
+                    "Transactions"
+                ]
+            }
+        },
+        "/transaction/{id}": {
+            "get": {
+                "operationId": "TransactionsController_findById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "ID Transaction",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "tags": [
+                    "Transactions"
+                ]
+            }
+        },
+        "/transaction/process": {
+            "post": {
+                "operationId": "TransactionsController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTransactionsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "tags": [
+                    "Transactions"
+                ]
+            }
+        },
+        "/transaction/process/{id}": {
+            "put": {
+                "operationId": "TransactionsController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "ID Transaction",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTransactionsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "tags": [
+                    "Transactions"
                 ]
             }
         }
@@ -386,6 +512,32 @@
                 "required": [
                     "email",
                     "password"
+                ]
+            },
+            "CreateTransactionsDto": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "string",
+                        "example": "354.50",
+                        "description": "Amount"
+                    }
+                },
+                "required": [
+                    "amount"
+                ]
+            },
+            "UpdateTransactionsDto": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "string",
+                        "example": "354.50",
+                        "description": "Amount"
+                    }
+                },
+                "required": [
+                    "amount"
                 ]
             }
         }

@@ -12,6 +12,7 @@ export enum GlobalErrorMessage {
     FAILED_INSERT_DATA = 'Failed Insert Data',
     FAILED_UPDATE_DATA = 'Failed Update Data',
     FAILED_DELETE_DATA = 'Failed Delete Data',
+    FAILED_NOT_FOUND_DATA = 'Failed Not Found',
     // auth
     FAILED_LOGIN_DATA_INCORRECT = 'Email or password incorrect',
     FAILED_LOGIN_REGISTERED = 'Email already registered',

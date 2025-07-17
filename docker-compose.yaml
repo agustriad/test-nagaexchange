@@ -1,0 +1,52 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      retries: 5
+    networks:
+      - dev-network
+    
+
+  nestjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+    depends_on:
+      - postgres
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      HOST: ${HOST}
+      PORT: ${PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_ENGINE: ${DATABASE_ENGINE}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - '4000:4000'
+    volumes:
+      - .:/usr/src/app
+    command: /bin/sh -c "npm run migration:run && npm run start:dev"
+    networks:
+      - dev-network
+
+volumes:
+  pgdata: 
+
+networks:
+  dev-network:
+    driver: bridge
