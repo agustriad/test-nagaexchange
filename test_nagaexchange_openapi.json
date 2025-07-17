@@ -182,6 +182,120 @@
                     "Health"
                 ]
             }
+        },
+        "/users": {
+            "post": {
+                "operationId": "UsersController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Users"
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "operationId": "UsersController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Users"
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "operationId": "AuthController_register",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterAuthenticationDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "operationId": "AuthController_login",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginAuthenticationDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/logout": {
+            "post": {
+                "operationId": "AuthController_logout",
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ]
+            }
         }
     },
     "info": {
@@ -194,7 +308,7 @@
     "servers": [],
     "components": {
         "securitySchemes": {
-            "access-token": {
+            "bearer": {
                 "scheme": "Bearer",
                 "bearerFormat": "Bearer",
                 "description": "[just text field] Please enter token in following format: Bearer <JWT>",
@@ -203,6 +317,77 @@
                 "in": "Header"
             }
         },
-        "schemas": {}
+        "schemas": {
+            "CreateUserDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Your name",
+                        "description": "Full name of the employee"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "email@example.com",
+                        "description": "Valid email address of the employee"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "yourpassword",
+                        "description": "Password used for login."
+                    }
+                },
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ]
+            },
+            "RegisterAuthenticationDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Agus Triadji",
+                        "description": "Fulname"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "agustriadji@email.com",
+                        "description": "Email user, must be unique"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "asdf1234*",
+                        "description": "Password min 5 char",
+                        "minLength": 6
+                    }
+                },
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ]
+            },
+            "LoginAuthenticationDto": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "agustriadji@email.com",
+                        "description": "Email registered"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "asdf1234*",
+                        "description": "Password user"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            }
+        }
     }
 }

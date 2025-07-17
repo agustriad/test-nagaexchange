@@ -1,17 +1,17 @@
-import { TypeOrmModule } from "@nestjs/typeorm";
-import "dotenv/config";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import 'dotenv/config';
 
 const allowedEngines = [
-    "postgres",
-    "mysql",
-    "mariadb",
-    "sqlite",
-    "mssql",
+    'postgres',
+    'mysql',
+    'mariadb',
+    'sqlite',
+    'mssql',
 ] as const;
 type SupportedDbEngines = (typeof allowedEngines)[number];
 
 const getDatabaseType = (): SupportedDbEngines => {
-    const engine = process.env.DATABASE_ENGINE || "postgres";
+    const engine = process.env.DATABASE_ENGINE || 'postgres';
     if (allowedEngines.includes(engine as SupportedDbEngines)) {
         return engine as SupportedDbEngines;
     }
@@ -25,12 +25,16 @@ export const ConfigSource = {
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
-    entities: [__dirname + "/../**/*.entity{.ts,.js}"],
-    migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
 
-    migrationsTableName: "migrations",
+    migrationsTableName: 'migrations',
+    cache: {
+        duration: 600000,
+        type: 'database',
+    },
     cli: {
-        migrationsDir: "database/migrations",
+        migrationsDir: 'database/migrations',
     },
     autoLoadEntities: true,
     synchronize: true,
@@ -44,15 +48,14 @@ export function DataSource(): any {
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        entities: [__dirname + "/../**/entities/*.entity{.ts,.js}"],
-        migrations: [__dirname + "/migrations/**/*.ts"],
-        migrationsTableName: "migrations",
+        entities: [__dirname + '/../**/entities/*.entity{.ts,.js}'],
+        migrations: [__dirname + '/migrations/**/*.ts'],
+        migrationsTableName: 'migrations',
         autoLoadEntities: true,
         synchronize: false,
         cache: {
             duration: 600000,
-            type: "database",
+            type: 'database',
         },
-        // logging: ["query", "error"],
     });
 }

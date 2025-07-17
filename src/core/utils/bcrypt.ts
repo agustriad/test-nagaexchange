@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@nestjs/common';
-import { hash, compare } from "bcrypt";
+import { hash, compare } from 'bcrypt';
 
 @Injectable()
 export class Bcrypt {
@@ -7,7 +9,10 @@ export class Bcrypt {
         return await hash(password, 10);
     }
 
-    public async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+    public async comparePassword(
+        password: string,
+        hashedPassword: string,
+    ): Promise<boolean> {
         return await compare(password, hashedPassword);
     }
 }

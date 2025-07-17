@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { NestFactory } from '@nestjs/core';
+import 'reflect-metadata';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './core/interceptor/response.interceptor';
+import { HttpExceptionFilter } from './core/exceptions/http-exception.filter';
 import { writeFileSync } from 'fs';
 import { name } from '../package.json';
 import { GlobalErrorCode } from './core/constants/error-code';
@@ -12,10 +14,11 @@ import * as dotenv from 'dotenv';
 import * as process from 'process';
 
 dotenv.config();
-
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    app.useGlobalInterceptors(new ResponseInterceptor());
+    const reflector = app.get(Reflector);
+    app.useGlobalInterceptors(new ResponseInterceptor(reflector));
+    app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalPipes(
         new ValidationPipe({
             transform: true,
@@ -43,19 +46,15 @@ async function bootstrap() {
             .setTitle(`${name} ApiDoc`)
             .setDescription(`${name} API description`)
             .setVersion('1.0')
-            .addBearerAuth(
-                {
-                    // I was also testing it without prefix 'Bearer ' before the JWT
-                    description: `[just text field] Please enter token in following format: Bearer <JWT>`,
-                    name: 'Authorization',
-                    bearerFormat: 'Bearer',
-                    // I`ve tested not to use this field, but the result was the same
-                    scheme: 'Bearer',
-                    type: 'http', // I`ve attempted type: 'apiKey' too
-                    in: 'Header',
-                },
-                'access-token', // This name here is important for matching up with @ApiBearerAuth() in your controller!
-            )
+            .addBearerAuth({
+                // I was also testing it without prefix 'Bearer ' before the JWT
+                description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+                name: 'Authorization',
+                bearerFormat: 'Bearer',
+                scheme: 'Bearer',
+                type: 'http',
+                in: 'Header',
+            })
             .build();
 
         const document = SwaggerModule.createDocument(app, config);
