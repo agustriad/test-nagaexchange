@@ -18,7 +18,7 @@ export class RegisterAuthenticationDto {
 
     @ApiProperty({
         example: 'asdf1234*',
-        description: 'Password min 5 char',
+        description: 'Password min 6 char',
         minLength: 6,
     })
     @IsString()

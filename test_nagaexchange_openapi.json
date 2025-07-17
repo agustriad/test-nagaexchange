@@ -323,17 +323,17 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "example": "Your name",
-                        "description": "Full name of the employee"
+                        "example": "Agus Triadji",
+                        "description": "Full name of the user"
                     },
                     "email": {
                         "type": "string",
-                        "example": "email@example.com",
-                        "description": "Valid email address of the employee"
+                        "example": "agustriadji@email.com",
+                        "description": "Valid email address of the user"
                     },
                     "password": {
                         "type": "string",
-                        "example": "yourpassword",
+                        "example": "asdf1234*",
                         "description": "Password used for login."
                     }
                 },
@@ -359,7 +359,7 @@
                     "password": {
                         "type": "string",
                         "example": "asdf1234*",
-                        "description": "Password min 5 char",
+                        "description": "Password min 6 char",
                         "minLength": 6
                     }
                 },
